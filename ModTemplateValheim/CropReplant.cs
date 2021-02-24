@@ -30,19 +30,26 @@ namespace CropReplant
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
         }
 
-        [HarmonyPatch(typeof(Pickable), "Drop")]
-        static class Drop_Patch
+        [HarmonyPatch(typeof(Pickable), "Interact")]
+        static class Interact_Patch
         {
-            static void Prefix(Pickable __instance)
+            static void Prefix(Pickable __instance, Humanoid character, bool repeat)
             {
                 string name = seedMap.FirstOrDefault(s => __instance.name.StartsWith(s.Key)).Value;
                 if (name != null)
                 {
+                    DBG($"IsPlayer: {character.IsPlayer()}; m_picked: {__instance.m_picked}");
+                    if (!character.IsPlayer() || __instance.m_picked)
+                    {
+                        return;
+                    }
+                    
                     GameObject prefab = ZNetScene.instance.GetPrefab(name);
                     Piece piece = prefab.GetComponent<Piece>();
-                    Player player = Player.GetClosestPlayer(__instance.transform.position, 10f);
+                    Player player = (Player)character; // Safe cast, we already know character must be player
                     bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
                     bool hasCultivator = player.m_inventory.HaveItem("$item_cultivator");
+                    DBG($"hasResources: {hasResources}; hasCultivator: {hasCultivator}");
                     if (hasResources && hasCultivator)
                     {
                         Instantiate(prefab, __instance.transform.position, Quaternion.identity);
