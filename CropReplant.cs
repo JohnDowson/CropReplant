@@ -4,11 +4,10 @@ using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
 namespace CropReplant
 {
-    [BepInPlugin("jd.CropReplant", "Tree Respawn", "0.1.0")]
+    [BepInPlugin("jd.CropReplant", "CropReplant", "0.1.3")]
     public class CropReplant : BaseUnityPlugin
     {
 
@@ -35,23 +34,12 @@ namespace CropReplant
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
         }
 
-        public static Pickable[] FindPickableOfKindInRadius(string kind, Vector3 position, float distance)
-        {
-            return GameObject.FindObjectsOfType<Pickable>()
-                .Where(p => (p.name.StartsWith(kind) &&
-                Vector3.Distance(position, p.transform.position) <= distance)).ToArray();
-        }
-
-
-
         [HarmonyPatch(typeof(Pickable), "Interact")]
         static class Interact_Patch
         {
             static void Prefix(Pickable __instance, Humanoid character, bool repeat)
             {
-                KeyValuePair<string, string> map = seedMap.FirstOrDefault(s => __instance.name.StartsWith(s.Key));
-                string crop_name = map.Key;
-                string seed_name = map.Value;
+                string seed_name = seedMap.FirstOrDefault(s => __instance.name.StartsWith(s.Key)).Value;
                 if (seed_name != null)
                 {
                     if (!character.IsPlayer() || __instance.m_picked)
@@ -63,7 +51,7 @@ namespace CropReplant
                     __instance.Replant(player, false);
                     if (multipick.Value)
                     {
-                        foreach (Pickable crop in FindPickableOfKindInRadius(crop_name, __instance.transform.position, range.Value))
+                        foreach (Pickable crop in __instance.FindPickableOfKindInRadius(range.Value))
                         {
                             crop.Replant(player, true);
                         }

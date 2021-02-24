@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 namespace CropReplant
 {
@@ -32,6 +29,15 @@ namespace CropReplant
                 UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
                 player.ConsumeResources(piece.m_resources, 1);
             }
+        }
+        public static List<Pickable> FindPickableOfKindInRadius(this Pickable pickable, float distance)
+        {
+            List<Pickable> pickableList = GameObject.FindObjectsOfType<Pickable>()
+                .Where(p => (p.name == pickable.name &&
+                Vector3.Distance(pickable.transform.position, p.transform.position) <= distance))
+                .ToList();
+            pickableList.Remove(pickable);
+            return pickableList;
         }
     }
 }
