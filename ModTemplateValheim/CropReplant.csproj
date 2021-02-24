@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PickableExt.cs" />
+    <Compile Include="Util.cs" />
     <Compile Include="CropReplant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
