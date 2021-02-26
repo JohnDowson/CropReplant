@@ -5,29 +5,27 @@ namespace CropReplant
 {
     public static class PickableExt
     {
-        public static void Replant(this Pickable pickable, Player player, bool chained)
+        public static void Replant(this Pickable pickable, Player player, bool replant)
         {
-            if (chained)
+            if (!pickable.m_picked)
             {
-                if (!pickable.m_picked)
-                {
-                    pickable.RPC_Pick(0);
-                }
-                else return;
+                pickable.m_nview.InvokeRPC("Pick", new Object[] { });
             }
+            else return;
 
-            Util.DBG($"Replanting {pickable.name} {(chained ? "chained replant" : "")}");
-            string seedName = CropReplant.seedMap.FirstOrDefault(s => pickable.name.StartsWith(s.Key)).Value;
-            GameObject prefab = ZNetScene.instance.GetPrefab(seedName);
-            Piece piece = prefab.GetComponent<Piece>();
-
-            bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
-            bool hasCultivator = player.m_inventory.HaveItem("$item_cultivator");
-
-            if (hasResources && hasCultivator)
+            if (replant)
             {
-                UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
-                player.ConsumeResources(piece.m_resources, 1);
+                string seedName = CropReplant.seedMap.FirstOrDefault(s => pickable.name.StartsWith(s.Key)).Value;
+                GameObject prefab = ZNetScene.instance.GetPrefab(seedName);
+                Piece piece = prefab.GetComponent<Piece>();
+
+                bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
+
+                if (hasResources)
+                {
+                    UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
+                    player.ConsumeResources(piece.m_resources, 1);
+                }
             }
         }
         public static List<Pickable> FindPickableOfKindInRadius(this Pickable pickable, float distance)
