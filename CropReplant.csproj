@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="PickableExt.cs" />
     <Compile Include="CropReplant.cs" />
+    <Compile Include="PlayerExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using DebugUtils;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,18 @@ namespace CropReplant
 
         public static ConfigEntry<float> range;
         public static ConfigEntry<bool> multipick;
-        public static ConfigEntry<KeyCode> hotkey;
+        public static ConfigEntry<KeyCode> replantHotkey;
+        public static ConfigEntry<KeyCode> nextSeedHotkey;
 
-        public static Dictionary<string, string> seedMap = new Dictionary<string, string>
+        public static readonly string[] replantableCrops = {
+                "Pickable_Carrot",
+                "Pickable_Turnip",
+                "Pickable_SeedCarrot",
+                "Pickable_SeedTurnip",
+                "Pickable_Barley",
+                "Pickable_Flax",
+        };
+        public static readonly Dictionary<string, string> seedMap = new Dictionary<string, string>
         {
             {"Pickable_Carrot", "sapling_carrot" },
             {"Pickable_Turnip", "sapling_turnip" },
@@ -28,14 +38,41 @@ namespace CropReplant
             {"Pickable_Barley", "sapling_barley" },
             {"Pickable_Flax", "sapling_flax" },
         };
+        public static readonly string[] seeds =
+        {
+            "same",
+            "sapling_carrot",
+            "sapling_turnip",
+            "sapling_seedcarrot",
+            "sapling_seedturnip",
+            "sapling_barley",
+            "sapling_flax",
+        };
+
+        private static readonly int totalSeedOptions = seeds.Length;
+        private static int seedCycle = 0;
+        public static string seedName = "same";
+        public static void NextSeed()
+        {
+            if (seedCycle < totalSeedOptions - 1)
+                seedCycle++;
+            else
+                seedCycle = 0;
+
+            seedName = seeds[seedCycle];
+        }
+
+
 
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable IDE0060 // Remove unused parameter
         private void Awake()
         {
-            range = Config.Bind<float>("General", "MultipickRange", 2f, "Radius to pick crops in");
-            multipick = Config.Bind<bool>("General", "MultipickEnable", true, "Enable picking crops in radius");
-            hotkey = Config.Bind<KeyCode>("General", "ReplantHotkey", KeyCode.H, "Hotkey for replanting");
+            range = Config.Bind("General", "MultipickRange", 2f, "Radius to pick crops in");
+            multipick = Config.Bind("General", "MultipickEnable", true, "Enable picking crops in radius");
+            replantHotkey = Config.Bind("General", "ReplantHotkey", KeyCode.H, "Hotkey for replanting");
+            nextSeedHotkey = Config.Bind("General", "NextSeedHotkey", KeyCode.J, "Hotkey for scrolling through replant options");
+
             harmony.PatchAll();
         }
 
@@ -45,12 +82,11 @@ namespace CropReplant
         }
 
         [HarmonyPatch(typeof(Pickable), "Interact")]
-        static class Interact_Patch
+        static class PickableInteract_Patch
         {
             static void Prefix(Pickable __instance, Humanoid character, bool repeat)
             {
-                string crop_name = seedMap.FirstOrDefault(s => __instance.name.StartsWith(s.Key)).Key;
-                if (crop_name != null)
+                if (__instance.Replantable())
                 {
                     if (!character.IsPlayer() || __instance.m_picked)
                     {
@@ -58,8 +94,7 @@ namespace CropReplant
                     }
 
                     var player = (Player)character; // Safe cast, we already know character must be player
-                    bool hasCultivator = player.m_inventory.HaveItem("$item_cultivator");
-                    if (hasCultivator)
+                    if (player.HasCultivator())
                     {
                         if (multipick.Value)
                         {
@@ -72,37 +107,62 @@ namespace CropReplant
                 }
             }
         }
-        [HarmonyPatch(typeof(Player), "Update")]
-        static class Update_Patch
+
+        [HarmonyPatch(typeof(Pickable), "GetHoverText")]
+        static class PickableGetHoverText_Patch
         {
-            static void Postfix(PlayerController __instance)
+            static string Postfix(string __result, Pickable __instance)
             {
-                bool keyDown = Input.GetKeyDown(hotkey.Value);
-                if (!keyDown)
-                    return;
-                var player = Player.m_localPlayer;
-                bool hasCultivator = player.m_inventory.HaveItem("$item_cultivator");
-                if (hasCultivator)
+                if (!__instance.m_picked)
                 {
-                    DebugUtils.Logging.Log("hasCultivator");
-                    var maybe_pickable = player.GetHoverObject()?.GetComponent<Pickable>();
-                    if (maybe_pickable != null)
+                    var player = Player.m_localPlayer;
+                    if (player.HasCultivator() && __instance.Replantable())
                     {
-                        DebugUtils.Logging.Log("maybe_pickable != null");
-                        string crop_name = seedMap.FirstOrDefault(s => maybe_pickable.name.StartsWith(s.Key)).Key;
-                        if (crop_name != null)
+                        string seedNameLocalized;
+                        if (seedName == "same")
+                            seedNameLocalized = "same crop";
+                        else
+                            seedNameLocalized = Localization.instance.Localize("$piece_" + seedName);
+                        return __result +
+                            $"\n[<color=yellow><b>{replantHotkey.Value}</b></color>] Replant with {seedNameLocalized}" +
+                            $"\n[<color=yellow><b>{nextSeedHotkey.Value}</b></color>] Choose another seed";
+                    }
+                }
+                return __result;
+            }
+        }
+        [HarmonyPatch(typeof(Player), "Update")]
+        static class PlayerUpdate_Patch
+        {
+            static void Postfix(Player __instance)
+            {
+                var player = __instance;
+                bool keyNextSeedDown = Input.GetKeyDown(nextSeedHotkey.Value);
+                bool keyReplantDown = Input.GetKeyDown(replantHotkey.Value);
+                if (keyReplantDown)
+                {
+                    if (player.HasCultivator())
+                    {
+                        var maybe_pickable = player.GetHoverObject()?.GetComponent<Pickable>();
+                        if (maybe_pickable != null)
                         {
-                            DebugUtils.Logging.Log("crop_name != null");
-                            maybe_pickable.Replant(player, true);
-                            if (multipick.Value)
+                            if (maybe_pickable.Replantable())
                             {
-                                foreach (var crop in maybe_pickable.FindPickableOfKindInRadius(range.Value))
+                                maybe_pickable.Replant(player, true);
+                                if (multipick.Value)
                                 {
-                                    crop.Replant(player, true);
+                                    foreach (var crop in maybe_pickable.FindPickableOfKindInRadius(range.Value))
+                                    {
+                                        crop.Replant(player, true);
+                                    }
                                 }
                             }
                         }
                     }
+                }
+                if (keyNextSeedDown)
+                {
+                    NextSeed();
                 }
             }
         }

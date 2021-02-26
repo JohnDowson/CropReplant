@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using DebugUtils;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 namespace CropReplant
 {
     public static class PickableExt
     {
+
+        public static bool Replantable(this Pickable pickable)
+        {
+            return System.Array.Exists(CropReplant.replantableCrops, s => pickable.name.StartsWith(s));
+        }
+
         public static void Replant(this Pickable pickable, Player player, bool replant)
         {
             if (!pickable.m_picked)
@@ -15,7 +22,11 @@ namespace CropReplant
 
             if (replant)
             {
-                string seedName = CropReplant.seedMap.FirstOrDefault(s => pickable.name.StartsWith(s.Key)).Value;
+                string seedName;
+                if (CropReplant.seedName == "same")
+                    seedName = CropReplant.seedMap.FirstOrDefault(s => pickable.name.StartsWith(s.Key)).Value;
+                else
+                    seedName = CropReplant.seedName;
                 GameObject prefab = ZNetScene.instance.GetPrefab(seedName);
                 Piece piece = prefab.GetComponent<Piece>();
 
