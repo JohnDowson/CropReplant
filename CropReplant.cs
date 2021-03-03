@@ -71,7 +71,7 @@ namespace CropReplant
 
                 var playerUpdate = typeof(Player).GetMethod("Update");
                 var playerUpdatePostfix = typeof(PickablePatches.PickableGetHoverText_Patch).GetMethod("Prefix");
-                harmony.Patch(playerUpdate, prefix: new HarmonyMethod(playerUpdatePostfix));
+                harmony.Patch(playerUpdate, postfix: new HarmonyMethod(playerUpdatePostfix));
             }
         }
 
