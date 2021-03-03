@@ -36,9 +36,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PickableExt.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Extensions\PickableExt.cs" />
     <Compile Include="CropReplant.cs" />
-    <Compile Include="PlayerExt.cs" />
+    <Compile Include="Extensions\PlayerExt.cs" />
+    <Compile Include="Patches\PickablePatches.cs" />
+    <Compile Include="Patches\PlantPatches.cs" />
+    <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -245,6 +249,7 @@
     <ProjectReference Include="..\DebugUtils\DebugUtils.csproj">
       <Project>{7138778a-a48f-4dfa-9ed3-36192284a5da}</Project>
       <Name>DebugUtils</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -6,10 +6,17 @@ namespace CropReplant
 {
     public static class PickableExt
     {
-
+        public static readonly string[] replantableCrops = {
+                "Pickable_Carrot",
+                "Pickable_Turnip",
+                "Pickable_SeedCarrot",
+                "Pickable_SeedTurnip",
+                "Pickable_Barley",
+                "Pickable_Flax",
+        };
         public static bool Replantable(this Pickable pickable)
         {
-            return System.Array.Exists(CropReplant.replantableCrops, s => pickable.name.StartsWith(s));
+            return System.Array.Exists(replantableCrops, s => pickable.name.StartsWith(s));
         }
 
         public static void Replant(this Pickable pickable, Player player, bool replant)
