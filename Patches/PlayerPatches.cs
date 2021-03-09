@@ -9,32 +9,29 @@ namespace CropReplant.PlayerPatches
     {
         static void Postfix(Player __instance)
         {
-            bool keyNextSeedDown = Input.GetKeyDown(CRConfig.nextSeedHotkey);
-            bool keyReplantDown = Input.GetKeyDown(CRConfig.replantHotkey);
+            bool keyReplantDown = ZInput.GetButtonDown("Remove") || ZInput.GetButtonDown("JoyRemove");
             if (keyReplantDown)
             {
-                if (__instance.HasCultivator())
+                if (__instance.CultivatorEquipped())
                 {
-                    var maybe_pickable = __instance.GetHoverObject()?.GetComponent<Pickable>();
-                    if (maybe_pickable != null)
+                    GameObject[] parameters = new GameObject[] { null, null };
+                    PlayerExt.FindHoverObject.Invoke(__instance, parameters);
+                    var maybePickable = parameters[0]?.GetComponent<Pickable>();
+                    if (maybePickable != null)
                     {
-                        if (maybe_pickable.Replantable())
+                        if (maybePickable.Replantable())
                         {
-                            maybe_pickable.Replant(__instance, true);
+                            maybePickable.Replant(__instance);
                             if (CRConfig.multipick)
                             {
-                                foreach (var crop in maybe_pickable.FindPickableOfKindInRadius(CRConfig.range))
+                                foreach (var crop in maybePickable.FindPickableOfKindInRadius(CRConfig.range))
                                 {
-                                    crop.Replant(__instance, true);
+                                    crop.Replant(__instance);
                                 }
                             }
                         }
                     }
                 }
-            }
-            if (keyNextSeedDown)
-            {
-                CropReplant.NextSeed();
             }
         }
     }

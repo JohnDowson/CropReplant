@@ -1,5 +1,4 @@
-﻿using DebugUtils;
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Reflection;
 
@@ -18,7 +17,7 @@ namespace CropReplant.Patches
             {
                 DateTime d = new DateTime(__instance.m_nview.GetZDO().GetLong("plantTime", ZNet.instance.GetTime().Ticks));
                 var timeSincePlanted = (ZNet.instance.GetTime() - d).TotalSeconds;
-                __result += $"\n{(int)(timeSincePlanted/__instance.m_growTimeMax*100)}% grown";
+                __result += $"\n{(int)(timeSincePlanted / __instance.m_growTimeMax * 100)}% grown";
             }
 
             return __result;

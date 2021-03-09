@@ -1,5 +1,4 @@
-﻿using DebugUtils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 namespace CropReplant
@@ -14,12 +13,21 @@ namespace CropReplant
                 "Pickable_Barley",
                 "Pickable_Flax",
         };
+        public static readonly string[] seeds = {
+            "sapling_carrot",
+            "sapling_turnip",
+            "sapling_seedcarrot",
+            "sapling_seedturnip",
+            "sapling_barley",
+            "sapling_flax",
+        };
+
         public static bool Replantable(this Pickable pickable)
         {
             return System.Array.Exists(replantableCrops, s => pickable.name.StartsWith(s));
         }
 
-        public static void Replant(this Pickable pickable, Player player, bool replant)
+        public static void Replant(this Pickable pickable, Player player)
         {
             if (!pickable.m_picked)
             {
@@ -27,24 +35,21 @@ namespace CropReplant
             }
             else return;
 
-            if (replant)
+            GameObject prefab = player.m_rightItem.m_shared.m_buildPieces.GetSelectedPrefab();
+            Piece piece;
+            if (System.Array.Exists(seeds, s => prefab?.name == s))
+                piece = prefab.GetComponent<Piece>();
+            else return;
+
+            bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
+
+            if (hasResources)
             {
-                string seedName;
-                if (CropReplant.seedName == "same")
-                    seedName = CropReplant.seedMap.FirstOrDefault(s => pickable.name.StartsWith(s.Key)).Value;
-                else
-                    seedName = CropReplant.seedName;
-                GameObject prefab = ZNetScene.instance.GetPrefab(seedName);
-                Piece piece = prefab.GetComponent<Piece>();
-
-                bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
-
-                if (hasResources)
-                {
-                    UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
-                    player.ConsumeResources(piece.m_resources, 1);
-                }
+                UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
+                player.ConsumeResources(piece.m_resources, 1);
+                player.UseItemInHand();
             }
+
         }
         public static List<Pickable> FindPickableOfKindInRadius(this Pickable pickable, float distance)
         {
