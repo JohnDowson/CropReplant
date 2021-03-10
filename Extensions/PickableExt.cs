@@ -35,10 +35,14 @@ namespace CropReplant
             }
             else return;
 
-            GameObject prefab = player.m_rightItem.m_shared.m_buildPieces.GetSelectedPrefab();
-            Piece piece;
-            if (System.Array.Exists(seeds, s => prefab?.name == s))
-                piece = prefab.GetComponent<Piece>();
+            GameObject prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
+            
+            Piece piece = null;
+            if (prefab != null)
+            {
+                if (System.Array.Exists(seeds, s => prefab?.name == s))
+                    piece = prefab.GetComponent<Piece>();
+            }
             else return;
 
             bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);

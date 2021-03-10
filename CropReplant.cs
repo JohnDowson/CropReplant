@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CropReplant
 {
-    [BepInPlugin("com.github.johndowson.CropReplant", "CropReplant", "2.0.0")]
+    [BepInPlugin("com.github.johndowson.CropReplant", "CropReplant", "2.1.0")]
     public class CropReplant : BaseUnityPlugin
     {
         private static readonly Harmony harmony = new(typeof(CropReplant).GetCustomAttributes(typeof(BepInPlugin), false)
@@ -24,7 +24,6 @@ namespace CropReplant
                 harmony.PatchAll();
             else
             {
-                harmony.PatchAll(typeof(PickablePatches.PickableInteract_Patch));
                 harmony.PatchAll(typeof(PlayerPatches.PlayerUpdate_Patch));
             }
         }

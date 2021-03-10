@@ -9,7 +9,10 @@ namespace CropReplant.PlayerPatches
     {
         static void Postfix(Player __instance)
         {
-            bool keyReplantDown = ZInput.GetButtonDown("Remove") || ZInput.GetButtonDown("JoyRemove");
+
+            bool keyReplantDown = CRConfig.useCustomReplantKey
+                ? Input.GetKeyDown(CRConfig.customReplantKey)
+                : (ZInput.GetButtonDown("Remove") || ZInput.GetButtonDown("JoyRemove"));
             if (keyReplantDown)
             {
                 if (__instance.CultivatorEquipped())

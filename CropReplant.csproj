@@ -40,7 +40,6 @@
     <Compile Include="Extensions\PickableExt.cs" />
     <Compile Include="CropReplant.cs" />
     <Compile Include="Extensions\PlayerExt.cs" />
-    <Compile Include="Patches\PickablePatches.cs" />
     <Compile Include="Patches\PlantPatches.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
