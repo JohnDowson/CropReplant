@@ -1,0 +1,4 @@
+# CropReplant
+A Valheim mod forked from [JohnDowson/CropReplant](https://github.com/JohnDowson/CropReplant)
+
+This repo as only purpose for now of minor fix and adding crop.
