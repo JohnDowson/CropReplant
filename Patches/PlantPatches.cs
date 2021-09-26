@@ -9,22 +9,22 @@ namespace CropReplant.Patches
     static class PlantGetHoverText_Patch
     {
         private static string GetColour(double percentage)
+	{
+		string result = "#e74c3c";
+		if (percentage >= 25.0 && percentage <= 50.0)
 		{
-			string result = "#e74c3c";
-			if (percentage >= 25.0 && percentage <= 50.0)
-			{
-				result = "#e67e22";
-			}
-			if (percentage >= 50.0 && percentage <= 75.0)
-			{
-				result = "#f1c40f";
-			}
-			if (percentage >= 75.0 && percentage <= 100.0)
-			{
-				result = "#27ae60";
-			}
-			return result;
+			result = "#e67e22";
 		}
+		if (percentage >= 50.0 && percentage <= 75.0)
+		{
+			result = "#f1c40f";
+		}
+		if (percentage >= 75.0 && percentage <= 100.0)
+		{
+			result = "#27ae60";
+		}
+		return result;
+	}
         static readonly FieldInfo StatusField = AccessTools.Field(typeof(Plant), "m_status");
         static string Postfix(string __result, Plant __instance)
         {
