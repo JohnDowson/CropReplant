@@ -12,7 +12,10 @@ namespace CropReplant
         }
         public static void UseItemInHand(this Player player)
         {
-            player.m_rightItem.m_durability -= player.m_rightItem.m_shared.m_useDurabilityDrain;
+            if (CRConfig.useDurability)
+            {
+                player.m_rightItem.m_durability -= player.m_rightItem.m_shared.m_useDurabilityDrain;
+            }
         }
 
     }
