@@ -8,36 +8,42 @@ namespace CropReplant.Patches
     [HarmonyPatch(typeof(Plant), "GetHoverText")]
     static class PlantGetHoverText_Patch
     {
-        private static string GetColour(double percentage)
-	{
-		string result = "#e74c3c";
-		if (percentage >= 25.0 && percentage <= 50.0)
+		private static string GetColour(double percentage)
 		{
-			result = "#e67e22";
+			string colour = "#e74c3c"; //Red
+			if (percentage >= 25.0 && percentage <= 50.0)
+			{
+				colour = "#e67e22"; //Orange
+			}
+			if (percentage >= 50.0 && percentage <= 75.0)
+			{
+				colour = "#f1c40f";//Yellow
+			}
+			if (percentage >= 75.0 && percentage <= 100.0)
+			{
+				colour = "#27ae60";//Green
+			}
+			return colour;
 		}
-		if (percentage >= 50.0 && percentage <= 75.0)
-		{
-			result = "#f1c40f";
-		}
-		if (percentage >= 75.0 && percentage <= 100.0)
-		{
-			result = "#27ae60";
-		}
-		return result;
-	}
-        static readonly FieldInfo StatusField = AccessTools.Field(typeof(Plant), "m_status");
+		static readonly FieldInfo StatusField = AccessTools.Field(typeof(Plant), "m_status");
         static string Postfix(string __result, Plant __instance)
         {
-            var m_status = (int)StatusField.GetValue(__instance);
-            bool is_healthy = m_status == 0; // This is fragile, but oh well, enum Plant.Status is private
+            bool is_healthy = __instance.GetStatus() == Plant.Status.Healthy;
             if (is_healthy)
             {
-                DateTime d = new DateTime(__instance.m_nview.GetZDO().GetLong("plantTime", ZNet.instance.GetTime().Ticks));
-                var timeSincePlanted = (ZNet.instance.GetTime() - d).TotalSeconds;
-                var percentGrow = (int)(timeSincePlanted / __instance.m_growTimeMax * 100);
+                DateTime d = new(__instance.m_nview.GetZDO().GetLong("plantTime", ZNet.instance.GetTime().Ticks));
+				var timeSincePlanted = (ZNet.instance.GetTime() - d).TotalSeconds;
+				var growTime = __instance.GetGrowTime();
+				var percentGrow = (int)(timeSincePlanted / growTime * 100);
 				string colour = GetColour(percentGrow);
-				__result += $"\n<color={colour}>{percentGrow}% ~ {TimeSpan.FromSeconds(__instance.m_growTimeMax - timeSincePlanted).ToString(@"hh\:mm\:ss")}</color>";
-
+				if (percentGrow < 100) 
+				{
+					__result += $"\n<color={colour}>{percentGrow}% - {TimeSpan.FromSeconds(growTime - timeSincePlanted):hh\\:mm\\:ss}</color>";
+				}
+				if (percentGrow == 100)
+                {
+					__result += $"\n<color={colour}>{percentGrow}%</color>";
+				}
             }
 
             return __result;
