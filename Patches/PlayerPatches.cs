@@ -29,21 +29,7 @@ namespace CropReplant.PlayerPatches
                             {
                                 foreach (var crop in maybePickable.FindPickableOfKindInRadius(CRConfig.range))
                                 {
-                                    GameObject prefab = __instance.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
-
-                                    Piece piece = null;
-                                    if (prefab != null)
-                                    {
-                                        if (System.Array.Exists(PickableExt.seeds, s => prefab?.name == s))
-                                        {
-                                            piece = prefab.GetComponent<Piece>();
-                                            bool hasResources = __instance.HaveRequirements(piece, Player.RequirementMode.CanBuild);
-                                            if (hasResources)
-                                            {
-                                                crop.Replant(__instance);
-                                            }
-                                        }
-                                    }
+                                    crop.Replant(__instance);
                                 }
                             }
                         }

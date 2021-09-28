@@ -37,31 +37,31 @@ namespace CropReplant
         {
             if (!pickable.m_picked)
             {
-                pickable.m_nview.InvokeRPC("Pick", new Object[] { });
+                GameObject prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
+
+                Piece piece = null;
+                if (prefab != null)
+                {
+                    if (System.Array.Exists(seeds, s => prefab?.name == s))
+                        piece = prefab.GetComponent<Piece>();
+                }
+                else return;
+
+                bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
+
+                if (hasResources)
+                {
+                    pickable.m_nview.InvokeRPC("Pick", new Object[] { });
+                    UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
+                    player.ConsumeResources(piece.m_resources, 1);
+                    player.UseItemInHand();
+                }
+                if (!hasResources & !CRConfig.blockHarvestNoRessources) 
+                {
+                    pickable.m_nview.InvokeRPC("Pick", new Object[] { });
+                }
             }
             else return;
-
-            GameObject prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
-
-            Piece piece = null;
-            if (prefab != null)
-            {
-                if (System.Array.Exists(seeds, s => prefab?.name == s))
-                    piece = prefab.GetComponent<Piece>();
-            }
-            else 
-            {
-                return;
-            }
-
-            bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
-
-            if (hasResources)
-            {
-                UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
-                player.ConsumeResources(piece.m_resources, 1);
-                player.UseItemInHand();
-            }
 
         }
         public static List<Pickable> FindPickableOfKindInRadius(this Pickable pickable, float distance)
