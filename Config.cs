@@ -10,7 +10,7 @@ namespace CropReplant
         public static bool useDurability;
         public static bool useCustomReplantKey;
         public static KeyCode customReplantKey;
-        public static bool blockHarvestNoRessources;
+        public static bool blockHarvestNoResources;
         public static void Bind(CropReplant cr)
         {
             range = cr.Config.Bind("General", "MultipickRange", 2f, "Radius to pick crops in").Value;
@@ -19,7 +19,7 @@ namespace CropReplant
             useDurability = cr.Config.Bind("General", "UseDurability", true, "Enable cultivator durability depletion when replanting.").Value;
             useCustomReplantKey = cr.Config.Bind("General", "UseCustomReplantKey", false, "Use a custom keybind instead of game's alternative attack bind.").Value;
             customReplantKey = cr.Config.Bind("General", "customReplantKey", KeyCode.H, "Custom keybind to use instead of of game's alternative attack bind.").Value;
-            blockHarvestNoRessources = cr.Config.Bind("General", "blockHarvestNoRessources", false, "Block harvest if no ressource to replant.").Value;
+            blockHarvestNoResources = cr.Config.Bind("General", "blockHarvestNoResources", false, "Block harvest if no resource to replant.").Value;
         }
     }
 

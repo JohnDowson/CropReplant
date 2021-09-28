@@ -56,7 +56,7 @@ namespace CropReplant
                     player.ConsumeResources(piece.m_resources, 1);
                     player.UseItemInHand();
                 }
-                if (!hasResources & !CRConfig.blockHarvestNoRessources) 
+                if (!hasResources & !CRConfig.blockHarvestNoResources) 
                 {
                     pickable.m_nview.InvokeRPC("Pick", new Object[] { });
                 }
