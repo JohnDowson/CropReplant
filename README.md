@@ -15,7 +15,7 @@ On v2.1.x I'll do :
 
 Planned on 2.1.x :
 
-- [x] Block harvest in no resource in inventory
+- [x] Block harvest if no resource in inventory
 - [x] Improve time display on plant with accurate time and color
 - [ ] Auto add new crop
 
