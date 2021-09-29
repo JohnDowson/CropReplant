@@ -32,7 +32,7 @@ Planned on 2.1.x :
 - [x] Block harvest if no resource in inventory
 - [x] Improve time display on plant with accurate time and color
 - [ ] Auto add new crop
-- [ ] Replant same crop if no selection
+- [x] Replant same crop if no selection (if cultivate is selected)
 
 
 
