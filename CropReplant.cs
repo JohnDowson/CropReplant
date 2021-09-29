@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CropReplant
 {
-    [BepInPlugin("com.github.johndowson.CropReplant", "CropReplant", "2.1.5")]
+    [BepInPlugin("com.github.Ch0z.CropReplant", "CropReplant", "2.1.6")]
     public class CropReplant : BaseUnityPlugin
     {
         private static readonly Harmony harmony = new(typeof(CropReplant).GetCustomAttributes(typeof(BepInPlugin), false)

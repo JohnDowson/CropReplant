@@ -11,6 +11,7 @@ namespace CropReplant
         public static bool useCustomReplantKey;
         public static KeyCode customReplantKey;
         public static bool blockHarvestNoResources;
+        public static bool replantSame;
         public static void Bind(CropReplant cr)
         {
             range = cr.Config.Bind("General", "MultipickRange", 2f, "Radius to pick crops in").Value;
@@ -20,6 +21,7 @@ namespace CropReplant
             useCustomReplantKey = cr.Config.Bind("General", "UseCustomReplantKey", false, "Use a custom keybind instead of game's alternative attack bind.").Value;
             customReplantKey = cr.Config.Bind("General", "customReplantKey", KeyCode.H, "Custom keybind to use instead of of game's alternative attack bind.").Value;
             blockHarvestNoResources = cr.Config.Bind("General", "blockHarvestNoResources", false, "Block harvest if no resource to replant.").Value;
+            replantSame = cr.Config.Bind("General", "replantSame", false, "Replant same plant if cultivate is selected in cultivator menu.").Value;
         }
     }
 

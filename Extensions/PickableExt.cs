@@ -27,23 +27,43 @@ namespace CropReplant
             "sapling_flax",
 
         };
+        public static readonly Dictionary<string, string> Same = new()
+        {
+            { "Carrot", "sapling_carrot" },
+            { "Turnip", "sapling_turnip" },
+            { "Onion", "sapling_onion" },
+            { "TurnipSeeds", "sapling_seedturnip" },
+            { "OnionSeeds", "sapling_seedonion" },
+            { "CarrotSeeds", "sapling_seedcarrot" },
+            { "Barley", "sapling_barley" },
+            { "Flax", "sapling_flax" },
+        };
 
-        public static bool Replantable(this Pickable pickable)
+    public static bool Replantable(this Pickable pickable)
         {
             return System.Array.Exists(replantableCrops, s => pickable.name.StartsWith(s));
         }
 
         public static void Replant(this Pickable pickable, Player player)
         {
-            if (!pickable.m_picked)
+        if (!pickable.m_picked)
             {
                 GameObject prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
 
                 Piece piece = null;
+
+                if (prefab.name == "cultivate_v2" & CRConfig.replantSame)
+                {
+                    prefab = ZNetScene.instance.GetPrefab(Same[pickable.m_itemPrefab.name]);
+                }
+                else if (prefab.name == "cultivate_v2") return;
+
                 if (prefab != null)
                 {
-                    if (System.Array.Exists(seeds, s => prefab?.name == s))
+                    if (System.Array.Exists(seeds, s => prefab?.name == s)) 
+                    {
                         piece = prefab.GetComponent<Piece>();
+                    }
                 }
                 else return;
 
@@ -56,13 +76,11 @@ namespace CropReplant
                     player.ConsumeResources(piece.m_resources, 1);
                     player.UseItemInHand();
                 }
-                if (!hasResources & !CRConfig.blockHarvestNoResources) 
+                else if (!CRConfig.blockHarvestNoResources)
                 {
                     pickable.m_nview.InvokeRPC("Pick", new Object[] { });
                 }
             }
-            else return;
-
         }
         public static List<Pickable> FindPickableOfKindInRadius(this Pickable pickable, float distance)
         {
