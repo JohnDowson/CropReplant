@@ -30,9 +30,8 @@ Alternatively, use "UseCustomReplantKey = true" in the config to use the previou
 
 - [x] Block harvest if no resource in inventory
 - [x] Improve time display on plant with accurate time and color
-- [ ] Auto add new crop
 - [x] Replant same crop if no selection (if cultivate is selected)
-
+- [ ] Improving HUD
 
 
 # Credits
