@@ -12,6 +12,8 @@ namespace CropReplant
                 "Pickable_SeedTurnip",
                 "Pickable_Barley",
                 "Pickable_Flax",
+                "Pickable_Onion",
+                "Pickable_SeedOnion",
         };
         public static readonly string[] seeds = {
             "sapling_carrot",
@@ -20,6 +22,8 @@ namespace CropReplant
             "sapling_seedturnip",
             "sapling_barley",
             "sapling_flax",
+            "sapling_onion",
+            "sapling_seedonion",
         };
 
         public static bool Replantable(this Pickable pickable)
