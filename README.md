@@ -38,7 +38,7 @@ Alternatively, use "UseCustomReplantKey = true" in the config to use the previou
 
 This project is one of my favorite Valheim mod.
 
-I currently maintain it and compile releases for the community.
+I currently compile releases for the community.
 
 ## Author
 
