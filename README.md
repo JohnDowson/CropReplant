@@ -1,48 +1,72 @@
+<!-- HEADER -->
 # CropReplant
-A Valheim mod forked from [JohnDowson/CropReplant](https://github.com/JohnDowson/CropReplant)
+A handy quality of life mod for Valheim.
 
-On v0.1.6.x I'll do :
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
 
-- Adding new crop
+<!-- DOWNLOAD -->
+# Download
+You can download the latest version of the mod from [NexusMods](https://www.nexusmods.com/valheim/mods/99?tab=files).
 
-On v2.1.x I'll do :
+<!-- USAGE -->
+# Usage
+There are two ways you can use CropReplant.
 
-- Minor fix 
-- Adding new crop
-- Little improvement
+<!-- OPTION 1 -->
+### Option 1: Middle Click (Default)
+The following is the default behavior for CropReplant:
 
-# How to use 2.1.x
-
-1) Equip a Cultivator
-2) Point your crosshair to your fully grown crop
+1) Equip a cultivator.
+2) Point crosshair at a fully grown crop.
 3) Right click, Left click a plant you want to plant/replant in the cultivator build menu
-4) Right click again, then Middle mouse click the plant you want to replant while in the cultivator build menu.
+4) Right click again, then Middle mouse click the plant you want to replant *while still in the cultivator build menu*.
 
-Alternatively, use "UseCustomReplantKey = true" in the config to use the previous H key to replant. 
+**WARNING!** 
+> You must middle click the plant portrait within the cultivator build menu otherwise you'll accidentally kill the targeted/nearby crop!
 
-1) Select the crop to replant in cultivator build menu
-2) Hover the selected plant to any fully grown crop
-3) Press H
+<!-- OPTION 2 -->
+### Option 2: Key Binding
+Some may find this approach faster or more intuitive. You can edit the configuration for CropReplant to use a key binding. 
 
-[Source](https://forums.nexusmods.com/index.php?/topic/9689773-cropreplant/page-12#entry91711633)
+The configuration file can be found in the Valheim's install location:  
+```
+<Valheim-Install>\BepInEx\config\com.github.Ch0z.CropReplant.cfg
+```
 
-# Planned on 2.1.x
+- Update the `UseCustomReplantKey` property to `true`.  
+- By default, the key binding is set to `H` as in previous releases.
+- You may also assign a custom key by updating the value of the `CustomReplantKey` property.  
+[Click here](https://docs.unity3d.com/ScriptReference/KeyCode.html) for a full list of supported key codes you use.
 
-- [x] Block harvest if no resource in inventory
-- [x] Improve time display on plant with accurate time and color
-- [x] Replant same crop if no selection (if cultivate is selected)
-- [ ] Improving HUD
+Now you can use the following method to replant:
 
+1) Select the crop to replant in the cultivator build menu (right click)
+2) Point crosshair to any fully grown crop
+3) Press `CustomReplantKey` (`H` by default)
 
-# Credits
+> Using the key binding method doesn't need you to go into the cultivator build menu twice!
 
-This project is one of my favorite Valheim mod.
+<!-- CONTRIBUTING -->
+## Contributing
+If you are a developer and understand how to use Git, feel free to submit a PR for review.
 
-I currently compile releases for the community.
+<!-- LICENSE -->
+## License
+Distributed under the GNU Affero General Public License v3.0. See [LICENSE](https://github.com/JohnDowson/CropReplant/blob/main/LICENSE) for more information.
 
-## Author
+<!-- STYLE LINKS -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/JohnDowson/CropReplant.svg?style=plastic
+[contributors-url]: https://github.com/JohnDowson/repo/graphs/contributors
 
-- [Ivan Chinenov](https://github.com/JohnDowson) (JohnDowson)
+[forks-shield]: https://img.shields.io/github/forks/JohnDowson/CropReplant.svg?style=plastic
+[forks-url]: https://github.com/JohnDowson/repo/network/members
 
+[stars-shield]: https://img.shields.io/github/stars/JohnDowson/CropReplant?style=plastic
+[stars-url]: https://github.com/JohnDowson/CropReplant/stargazers
 
-
+[issues-shield]: https://img.shields.io/github/issues/JohnDowson/CropReplant?style=plastic
+[issues-url]: https://github.com/JohnDowson/repo/issues
