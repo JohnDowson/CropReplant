@@ -69,4 +69,4 @@ Distributed under the GNU Affero General Public License v3.0. See [LICENSE](http
 [stars-url]: https://github.com/JohnDowson/CropReplant/stargazers
 
 [issues-shield]: https://img.shields.io/github/issues/JohnDowson/CropReplant?style=plastic
-[issues-url]: https://github.com/JohnDowson/repo/issues
+[issues-url]: https://github.com/JohnDowson/CropReplant/issues
