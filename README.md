@@ -63,7 +63,7 @@ Distributed under the GNU Affero General Public License v3.0. See [LICENSE](http
 [contributors-url]: https://github.com/JohnDowson/repo/graphs/contributors
 
 [forks-shield]: https://img.shields.io/github/forks/JohnDowson/CropReplant.svg?style=plastic
-[forks-url]: https://github.com/JohnDowson/repo/network/members
+[forks-url]: https://github.com/JohnDowson/CropReplant/network/members
 
 [stars-shield]: https://img.shields.io/github/stars/JohnDowson/CropReplant?style=plastic
 [stars-url]: https://github.com/JohnDowson/CropReplant/stargazers
