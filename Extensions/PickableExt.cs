@@ -27,7 +27,7 @@ namespace CropReplant
             "sapling_flax",
 
         };
-        public static readonly Dictionary<string, string> Same = new()
+        public static readonly Dictionary<string, string> pickablePlant = new()
         {
             { "Carrot", "sapling_carrot" },
             { "Turnip", "sapling_turnip" },
@@ -54,7 +54,15 @@ namespace CropReplant
 
                 if (prefab.name == "cultivate_v2" & CRConfig.replantSame)
                 {
-                    prefab = ZNetScene.instance.GetPrefab(Same[pickable.m_itemPrefab.name]);
+                    bool keyExists = pickablePlant.ContainsKey(pickable.m_itemPrefab.name);
+                    if (keyExists)
+                    {
+                        prefab = ZNetScene.instance.GetPrefab(pickablePlant[pickable.m_itemPrefab.name]);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else if (prefab.name == "cultivate_v2") return;
 

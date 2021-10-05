@@ -23,9 +23,8 @@ namespace CropReplant.Patches
 			{
 				colour = "#27ae60";//Green
 			}
-			return colour;
+            return colour;
 		}
-		static readonly FieldInfo StatusField = AccessTools.Field(typeof(Plant), "m_status");
         static string Postfix(string __result, Plant __instance)
         {
             bool is_healthy = __instance.GetStatus() == Plant.Status.Healthy;
@@ -42,7 +41,7 @@ namespace CropReplant.Patches
 				}
 				if (percentGrow == 100)
                 {
-					__result += $"\n<color={colour}>{percentGrow}%</color>";
+                    __result += $"\n<color={colour}>{percentGrow}%</color>";
 				}
             }
 
