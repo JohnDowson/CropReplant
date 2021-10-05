@@ -60,7 +60,7 @@ Distributed under the GNU Affero General Public License v3.0. See [LICENSE](http
 <!-- STYLE LINKS -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/JohnDowson/CropReplant.svg?style=plastic
-[contributors-url]: https://github.com/JohnDowson/repo/graphs/contributors
+[contributors-url]: https://github.com/JohnDowson/CropReplant/graphs/contributors
 
 [forks-shield]: https://img.shields.io/github/forks/JohnDowson/CropReplant.svg?style=plastic
 [forks-url]: https://github.com/JohnDowson/CropReplant/network/members
