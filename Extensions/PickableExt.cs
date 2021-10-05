@@ -14,7 +14,6 @@ namespace CropReplant
                 "Pickable_SeedOnion",
                 "Pickable_Barley",
                 "Pickable_Flax",
-
         };
         public static readonly string[] seeds = {
             "sapling_carrot",
@@ -25,7 +24,6 @@ namespace CropReplant
             "sapling_seedonion",
             "sapling_barley",
             "sapling_flax",
-
         };
         public static readonly Dictionary<string, string> pickablePlant = new()
         {
