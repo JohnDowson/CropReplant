@@ -33,7 +33,7 @@ Some may find this approach faster or more intuitive. You can edit the configura
 
 The configuration file can be found in the Valheim's install location:  
 ```
-<Valheim-Install>\BepInEx\config\com.github.Ch0z.CropReplant.cfg
+<Valheim-Install>\BepInEx\config\com.github.johndowson.CropReplant.cfg
 ```
 
 - Update the `UseCustomReplantKey` property to `true`.  
