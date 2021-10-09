@@ -1,10 +1,12 @@
 ﻿using BepInEx;
+using Jotunn;
 using HarmonyLib;
 using System.Linq;
 
 namespace CropReplant
 {
     [BepInPlugin("com.github.johndowson.CropReplant", "CropReplant", "2.1.7")]
+    [BepInDependency(Jotunn.Main.ModGuid)]
     public class CropReplant : BaseUnityPlugin
     {
         private static readonly Harmony harmony = new(typeof(CropReplant).GetCustomAttributes(typeof(BepInPlugin), false)
