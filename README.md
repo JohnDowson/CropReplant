@@ -60,13 +60,13 @@ Distributed under the GNU Affero General Public License v3.0. See [LICENSE](http
 <!-- STYLE LINKS -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/JohnDowson/CropReplant.svg?style=plastic
-[contributors-url]: https://github.com/JohnDowson/repo/graphs/contributors
+[contributors-url]: https://github.com/JohnDowson/CropReplant/graphs/contributors
 
 [forks-shield]: https://img.shields.io/github/forks/JohnDowson/CropReplant.svg?style=plastic
-[forks-url]: https://github.com/JohnDowson/repo/network/members
+[forks-url]: https://github.com/JohnDowson/CropReplant/network/members
 
 [stars-shield]: https://img.shields.io/github/stars/JohnDowson/CropReplant?style=plastic
 [stars-url]: https://github.com/JohnDowson/CropReplant/stargazers
 
 [issues-shield]: https://img.shields.io/github/issues/JohnDowson/CropReplant?style=plastic
-[issues-url]: https://github.com/JohnDowson/repo/issues
+[issues-url]: https://github.com/JohnDowson/CropReplant/issues
