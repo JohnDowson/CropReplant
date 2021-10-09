@@ -5,10 +5,14 @@ using System.Linq;
 
 namespace CropReplant
 {
-    [BepInPlugin("com.github.johndowson.CropReplant", "CropReplant", "2.1.7")]
+    [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
     public class CropReplant : BaseUnityPlugin
     {
+        public const string PluginGUID = "com.github.johndowson.CropReplant";
+        public const string PluginName = "CropReplant";
+        public const string PluginVersion = "2.3.0";
+
         private static readonly Harmony harmony = new(typeof(CropReplant).GetCustomAttributes(typeof(BepInPlugin), false)
             .Cast<BepInPlugin>()
             .First()

@@ -11,7 +11,7 @@ namespace CropReplant.PlayerPatches
         {
 
             bool keyReplantDown = CRConfig.useCustomReplantKey
-                ? Input.GetKeyDown(CRConfig.customReplantKey)
+                ? Input.GetButtonDown(CRConfig.replantKey.Name)
                 : (ZInput.GetButtonDown("Remove") || ZInput.GetButtonDown("JoyRemove"));
             if (keyReplantDown)
             {
