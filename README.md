@@ -7,6 +7,7 @@ A handy quality of life mod for Valheim.
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 
+[If you like this mod, consider buying me a coffee!](https://ko-fi.com/disregardthatisuck)
 <!-- DOWNLOAD -->
 # Download
 You can download the latest version of the mod from [NexusMods](https://www.nexusmods.com/valheim/mods/99?tab=files).

@@ -5,27 +5,7 @@ namespace CropReplant
 {
     public static class PickableExt
     {
-        public static readonly string[] replantableCrops = {
-                "Pickable_Carrot",
-                "Pickable_Turnip",
-                "Pickable_Onion",
-                "Pickable_SeedCarrot",
-                "Pickable_SeedTurnip",
-                "Pickable_SeedOnion",
-                "Pickable_Barley",
-                "Pickable_Flax",
-        };
-        public static readonly string[] seeds = {
-            "sapling_carrot",
-            "sapling_turnip",
-            "sapling_onion",
-            "sapling_seedcarrot",
-            "sapling_seedturnip",
-            "sapling_seedonion",
-            "sapling_barley",
-            "sapling_flax",
-        };
-        public static readonly Dictionary<string, string> pickablePlant = new()
+        public static Dictionary<string, string> pickablePlants = new()
         {
             { "Carrot", "sapling_carrot" },
             { "Turnip", "sapling_turnip" },
@@ -37,42 +17,37 @@ namespace CropReplant
             { "Flax", "sapling_flax" },
         };
 
-    public static bool Replantable(this Pickable pickable)
+        public static void ExtendPickableList(Dictionary<string, string> extension)
         {
-            return System.Array.Exists(replantableCrops, s => pickable.name.StartsWith(s));
+            foreach (var kv in extension.AsEnumerable())
+            {
+                pickablePlants.Append(kv);
+            }
+        }
+
+        public static bool Replantable(this Pickable pickable)
+        {
+            return System.Array.Exists(pickablePlants.Keys.ToArray(), k => pickable.name.EndsWith(k));
         }
 
         public static void Replant(this Pickable pickable, Player player)
         {
-        if (!pickable.m_picked)
+            if (!pickable.m_picked)
             {
-                GameObject prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
-
-                Piece piece = null;
-
-                if (prefab.name == "cultivate_v2" & CRConfig.replantSame)
+                GameObject prefab;
+                if (CRConfig.oldStyle || CRConfig.replantSame)
                 {
-                    bool keyExists = pickablePlant.ContainsKey(pickable.m_itemPrefab.name);
+                    bool keyExists = pickablePlants.ContainsKey(pickable.m_itemPrefab.name);
                     if (keyExists)
-                    {
-                        prefab = ZNetScene.instance.GetPrefab(pickablePlant[pickable.m_itemPrefab.name]);
-                    }
+                        prefab = ZNetScene.instance.GetPrefab(pickablePlants[pickable.m_itemPrefab.name]);
                     else
-                    {
                         return;
-                    }
                 }
-                else if (prefab.name == "cultivate_v2") return;
-
-                if (prefab != null)
+                else
                 {
-                    if (System.Array.Exists(seeds, s => prefab?.name == s)) 
-                    {
-                        piece = prefab.GetComponent<Piece>();
-                    }
+                    prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
                 }
-                else return;
-
+                Piece piece = prefab.GetComponent<Piece>();
                 bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
 
                 if (hasResources)
@@ -80,7 +55,8 @@ namespace CropReplant
                     pickable.m_nview.InvokeRPC("Pick", new Object[] { });
                     UnityEngine.Object.Instantiate(prefab, pickable.transform.position, Quaternion.identity);
                     player.ConsumeResources(piece.m_resources, 1);
-                    player.UseItemInHand();
+                    if (CRConfig.useDurability)
+                        player.UseCultivatorDurability();
                 }
                 else if (!CRConfig.blockHarvestNoResources)
                 {
