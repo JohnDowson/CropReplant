@@ -4,9 +4,14 @@ using System.Linq;
 
 namespace CropReplant
 {
-    [BepInPlugin("com.github.johndowson.CropReplant", "CropReplant", "2.1.7")]
+    [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
+    [BepInDependency(Jotunn.Main.ModGuid)]
     public class CropReplant : BaseUnityPlugin
     {
+        public const string PluginGUID = "com.github.johndowson.CropReplant";
+        public const string PluginName = "CropReplant";
+        public const string PluginVersion = "3.0.0";
+
         private static readonly Harmony harmony = new(typeof(CropReplant).GetCustomAttributes(typeof(BepInPlugin), false)
             .Cast<BepInPlugin>()
             .First()
@@ -20,12 +25,10 @@ namespace CropReplant
         {
             CRConfig.Bind(this);
 
-            if (CRConfig.displayGrowth)
-                harmony.PatchAll();
-            else
-            {
-                harmony.PatchAll(typeof(PlayerPatches.PlayerUpdate_Patch));
-            }
+            PickableExt.ExtendPickableList(CRConfig.customReplantables);
+            Logger.LogMessage($"Loaded {CRConfig.customReplantables.Count} custom plants");
+
+            harmony.PatchAll();
         }
 
         private void OnDestroy()
