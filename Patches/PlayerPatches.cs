@@ -10,12 +10,22 @@ namespace CropReplant.PlayerPatches
         static void Postfix(Player __instance)
         {
 
-            bool keyReplantDown = CRConfig.useCustomReplantKey
+            bool keyReplantDown = (CRConfig.useCustomReplantKey || CRConfig.oldStyle)
                 ? Input.GetKeyDown(CRConfig.customReplantKey)
                 : (ZInput.GetButtonDown("Remove") || ZInput.GetButtonDown("JoyRemove"));
+
+            if (CRConfig.oldStyle)
+            {
+                bool keyNextSeedDown = Input.GetKeyDown(CRConfig.nextSeedKey);
+                if (keyNextSeedDown)
+                {
+                    PickableExt.NextSeed();
+                }
+            }
+
             if (keyReplantDown)
             {
-                if (__instance.CultivatorEquipped())
+                if (__instance.CultivatorRequirement())
                 {
                     GameObject[] parameters = new GameObject[] { null, null };
                     PlayerExt.FindHoverObject.Invoke(__instance, parameters);

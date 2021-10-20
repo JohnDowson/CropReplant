@@ -39,6 +39,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Extensions\PickableExt.cs" />
     <Compile Include="CropReplant.cs" />
+    <Compile Include="Patches\PickablePatches.cs" />
     <Compile Include="Extensions\PlayerExt.cs" />
     <Compile Include="Patches\PlantPatches.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
@@ -60,13 +61,17 @@
   <Import Project="$(BuildGenDir)game.props" Condition="Exists('$(BuildGenDir)game.props')" />
   <!-- Use (generated) dependencies from Unity game -->
   <ItemGroup>
-    <!-- BepInEx & Harmony -->
+    <!-- BepInEx, Harmony & Jotunn-->
     <Reference Include="0Harmony">
       <HintPath>$(GameDir)BepInEx\core\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>$(GameDir)BepInEx\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Jotunn">
+      <HintPath>Libs\Jotunn.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <!-- Publicized assemblies -->

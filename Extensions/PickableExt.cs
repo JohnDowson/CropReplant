@@ -5,39 +5,53 @@ namespace CropReplant
 {
     public static class PickableExt
     {
-        public static readonly string[] replantableCrops = {
-                "Pickable_Carrot",
-                "Pickable_Turnip",
-                "Pickable_Onion",
-                "Pickable_SeedCarrot",
-                "Pickable_SeedTurnip",
-                "Pickable_SeedOnion",
-                "Pickable_Barley",
-                "Pickable_Flax",
-        };
-        public static readonly string[] seeds = {
-            "sapling_carrot",
-            "sapling_turnip",
-            "sapling_onion",
-            "sapling_seedcarrot",
-            "sapling_seedturnip",
-            "sapling_seedonion",
-            "sapling_barley",
-            "sapling_flax",
-        };
         public static readonly Dictionary<string, string> pickablePlant = new()
         {
             { "Carrot", "sapling_carrot" },
             { "Turnip", "sapling_turnip" },
             { "Onion", "sapling_onion" },
+            { "CarrotSeeds", "sapling_seedcarrot" },
             { "TurnipSeeds", "sapling_seedturnip" },
             { "OnionSeeds", "sapling_seedonion" },
-            { "CarrotSeeds", "sapling_seedcarrot" },
             { "Barley", "sapling_barley" },
             { "Flax", "sapling_flax" },
         };
 
-    public static bool Replantable(this Pickable pickable)
+        public static readonly Dictionary<string, string> seedMap = new()
+        {
+            { "Pickable_Carrot", "sapling_carrot" },
+            { "Pickable_Turnip", "sapling_turnip" },
+            { "Pickable_Onion", "sapling_onion" },
+            { "Pickable_SeedCarrot", "sapling_seedcarrot" },
+            { "Pickable_SeedTurnip", "sapling_seedturnip" },
+            { "Pickable_SeedOnion", "sapling_seedonion" },
+            { "Pickable_Barley", "sapling_barley" },
+            { "Pickable_Flax", "sapling_flax" },
+        };
+
+        public static readonly string[] replantableCrops = seedMap.Keys.ToArray();
+
+        public static readonly string[] seeds = seedMap.Values.ToArray();
+
+        private static readonly string[] seedSame = { "same" };
+
+        public static readonly string[] seedsOldStyle = seedSame.Concat(seeds).ToArray();
+
+        private static readonly int totalSeedOptions = seedsOldStyle.Length;
+        private static int seedCycle = 0;
+        public static string seedName = "same";
+
+        public static void NextSeed()
+        {
+            if (seedCycle < totalSeedOptions - 1)
+                seedCycle++;
+            else
+                seedCycle = 0;
+
+            seedName = seedsOldStyle[seedCycle];
+        }
+
+        public static bool Replantable(this Pickable pickable)
         {
             return System.Array.Exists(replantableCrops, s => pickable.name.StartsWith(s));
         }
@@ -46,32 +60,47 @@ namespace CropReplant
         {
         if (!pickable.m_picked)
             {
-                GameObject prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
-
-                Piece piece = null;
-
-                if (prefab.name == "cultivate_v2" & CRConfig.replantSame)
+                Piece piece;
+                GameObject prefab;
+                if (CRConfig.oldStyle) 
                 {
-                    bool keyExists = pickablePlant.ContainsKey(pickable.m_itemPrefab.name);
-                    if (keyExists)
-                    {
-                        prefab = ZNetScene.instance.GetPrefab(pickablePlant[pickable.m_itemPrefab.name]);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else if (prefab.name == "cultivate_v2") return;
+                    string currentSeedName;
+                    currentSeedName = seedName;
+                    if (currentSeedName == "same")
+                        currentSeedName = seedMap.FirstOrDefault(s => pickable.name.StartsWith(s.Key)).Value;
 
-                if (prefab != null)
-                {
-                    if (System.Array.Exists(seeds, s => prefab?.name == s)) 
-                    {
-                        piece = prefab.GetComponent<Piece>();
-                    }
+                    prefab = ZNetScene.instance.GetPrefab(currentSeedName);
+                    piece = prefab.GetComponent<Piece>();
                 }
-                else return;
+                else
+                {
+                    prefab = player.m_rightItem?.m_shared?.m_buildPieces?.GetSelectedPrefab();
+
+                    piece = null;
+
+                    if (prefab.name == "cultivate_v2" & CRConfig.replantSame)
+                    {
+                        bool keyExists = pickablePlant.ContainsKey(pickable.m_itemPrefab.name);
+                        if (keyExists)
+                        {
+                            prefab = ZNetScene.instance.GetPrefab(pickablePlant[pickable.m_itemPrefab.name]);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else if (prefab.name == "cultivate_v2") return;
+
+                    if (prefab != null)
+                    {
+                        if (System.Array.Exists(seeds, s => prefab?.name == s))
+                        {
+                            piece = prefab.GetComponent<Piece>();
+                        }
+                    }
+                    else return;
+                }
 
                 bool hasResources = player.HaveRequirements(piece, Player.RequirementMode.CanBuild);
 
