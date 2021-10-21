@@ -55,18 +55,18 @@ If you are a developer and understand how to use Git, feel free to submit a PR f
 
 <!-- LICENSE -->
 ## License
-Distributed under the GNU Affero General Public License v3.0. See [LICENSE](https://github.com/JohnDowson/CropReplant/blob/main/LICENSE) for more information.
+Distributed under the GNU Affero General Public License v3.0. See [LICENSE](https://github.com/Ch0z/CropReplant/blob/main/LICENSE) for more information.
 
 <!-- STYLE LINKS -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/JohnDowson/CropReplant.svg?style=plastic
-[contributors-url]: https://github.com/JohnDowson/CropReplant/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/Ch0z/CropReplant.svg?style=plastic
+[contributors-url]: https://github.com/Ch0z/CropReplant/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/JohnDowson/CropReplant.svg?style=plastic
-[forks-url]: https://github.com/JohnDowson/CropReplant/network/members
+[forks-shield]: https://img.shields.io/github/forks/Ch0z/CropReplant.svg?style=plastic
+[forks-url]: https://github.com/Ch0z/CropReplant/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/JohnDowson/CropReplant?style=plastic
-[stars-url]: https://github.com/JohnDowson/CropReplant/stargazers
+[stars-shield]: https://img.shields.io/github/stars/Ch0z/CropReplant?style=plastic
+[stars-url]: https://github.com/Ch0z/CropReplant/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/JohnDowson/CropReplant?style=plastic
-[issues-url]: https://github.com/JohnDowson/CropReplant/issues
+[issues-shield]: https://img.shields.io/github/issues/Ch0z/CropReplant?style=plastic
+[issues-url]: https://github.com/Ch0z/CropReplant/issues
