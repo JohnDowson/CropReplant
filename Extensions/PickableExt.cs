@@ -91,7 +91,7 @@ namespace CropReplant
                         }
                     }
 
-                    else if (prefab != null)
+                    if (prefab != null)
                     {
                         if (System.Array.Exists(seeds, s => prefab?.name == s))
                         {
