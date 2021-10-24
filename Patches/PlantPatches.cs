@@ -19,7 +19,7 @@ namespace CropReplant.Patches
 			{
 				colour = "#f1c40f";//Yellow
 			}
-			if (percentage >= 75.0 && percentage < 100.0)
+			if (percentage >= 75.0)
 			{
 				colour = "#27ae60";//Green
 			}
