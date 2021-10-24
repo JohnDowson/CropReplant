@@ -12,7 +12,6 @@ namespace CropReplant
         public static ConfigEntry<bool> c_displayGrowth;
         public static ConfigEntry<bool> c_useDurability;
         public static ConfigEntry<bool> c_blockHarvestNoResources;
-        public static ConfigEntry<bool> c_replantSame;
         public static ConfigEntry<bool> c_oldStyle;
 
         public static float range => c_range.Value;
@@ -20,7 +19,6 @@ namespace CropReplant
         public static bool displayGrowth => c_displayGrowth.Value;
         public static bool useDurability => c_useDurability.Value;
         public static bool blockHarvestNoResources => c_blockHarvestNoResources.Value;
-        public static bool replantSame => c_replantSame.Value;
         public static bool oldStyle => c_oldStyle.Value;
 
         public static ConfigEntry<bool> c_useCustomReplantKey;
@@ -47,7 +45,6 @@ namespace CropReplant
             c_useDurability = cr.Config.Bind("General", "UseDurability", true, "Enable cultivator durability depletion when replanting.");
 
             c_blockHarvestNoResources = cr.Config.Bind("General", "blockHarvestNoResources", false, "Block harvest if no resource to replant.");
-            c_replantSame = cr.Config.Bind("General", "replantSame", false, "Replant same plant if cultivate is selected in cultivator menu.");
 
             c_oldStyle = cr.Config.Bind("General", "oldStyle", false, "0.1.6 style replanting");
 

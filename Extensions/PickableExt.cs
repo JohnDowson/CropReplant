@@ -78,7 +78,7 @@ namespace CropReplant
 
                     piece = null;
 
-                    if (prefab.name == "cultivate_v2" & CRConfig.replantSame)
+                    if (prefab.name == "cultivate_v2")
                     {
                         bool keyExists = pickablePlant.ContainsKey(pickable.m_itemPrefab.name);
                         if (keyExists)
@@ -90,7 +90,6 @@ namespace CropReplant
                             return;
                         }
                     }
-                    else if (prefab.name == "cultivate_v2") return;
 
                     if (prefab != null)
                     {

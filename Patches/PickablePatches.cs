@@ -13,14 +13,12 @@ namespace CropReplant.PickablePatches
                 var player = Player.m_localPlayer;
                 if (player.CultivatorRequirement() && __instance.Replantable())
                 {
-                    string seedNameLocalized;
-                    if (PickableExt.seedName == "same")
-                        seedNameLocalized = "the same crop";
-                    else
-                        seedNameLocalized = Localization.instance.Localize("$piece_" + PickableExt.seedName);
+                    string seedNameLocalized = PickableExt.seedName == "same"
+                        ? Localization.instance.Localize("$same")
+                        : Localization.instance.Localize("$piece_" + PickableExt.seedName);
                     return __result +
-                        $"\n[<color=yellow><b>{CRConfig.customReplantKey}</b></color>] Replant with " + seedNameLocalized +
-                        $"\n[<color=yellow><b>{CRConfig.nextSeedKey}</b></color>] Choose different seed";
+                        $"\n[<color=yellow><b>{CRConfig.customReplantKey}</b></color>] " + Localization.instance.Localize("$replant_with") + " " + seedNameLocalized +
+                        $"\n[<color=yellow><b>{CRConfig.nextSeedKey}</b></color>] " + Localization.instance.Localize("$choose_different");
                 }
             }
             return __result;

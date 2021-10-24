@@ -19,7 +19,7 @@ namespace CropReplant.Patches
 			{
 				colour = "#f1c40f";//Yellow
 			}
-			if (percentage >= 75.0 && percentage <= 100.0)
+			if (percentage >= 75.0 && percentage < 100.0)
 			{
 				colour = "#27ae60";//Green
 			}
@@ -41,9 +41,9 @@ namespace CropReplant.Patches
 					{
 						__result += $"\n<color={colour}>{percentGrow}% - {TimeSpan.FromSeconds(growTime - timeSincePlanted):hh\\:mm\\:ss}</color>";
 					}
-					if (percentGrow == 100)
+					if (percentGrow >= 100)
 					{
-						__result += $"\n<color={colour}>{percentGrow}%</color>";
+                        __result += $"\n<color={colour}>100%</color>";
 					}
 				}
             }
