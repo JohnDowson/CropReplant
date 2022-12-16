@@ -15,6 +15,8 @@ namespace CropReplant
             { "CarrotSeeds", "sapling_seedcarrot" },
             { "Barley", "sapling_barley" },
             { "Flax", "sapling_flax" },
+            { "MushroomJotunpuffs", "sapling_mushroomjotunpuff" },
+            { "MushroomMagecap", "sapling_mushroommagecap" },
         };
 
         public static void ExtendPickableList(Dictionary<string, string> extension)
