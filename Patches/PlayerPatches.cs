@@ -18,7 +18,7 @@ namespace CropReplant.PlayerPatches
                 if (__instance.CultivatorEquipped())
                 {
                     __instance.FindHoverObject(out GameObject hover, out Character _);
-                    var maybePickable = hover?.GetComponent<Pickable>();
+                    Pickable pickable = hover?.GetComponentInParent<Pickable>();
                     if (maybePickable != null)
                     {
                         if (maybePickable.Replantable())
